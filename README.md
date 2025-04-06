@@ -19,10 +19,20 @@ docker compose up -d
 
 ## For the Python Code
 
-* Adding Certificate
+1. Adding Certificate
     https://opensearch.org/docs/latest/security/configuration/generate-certificates/
 
 ```
 openssl genrsa -out root-ca-key.pem 2048
 openssl req -new -x509 -sha256 -key root-ca-key.pem -out root-ca.pem -days 730
+```
+
+2. Edit Config Variables in the **opensearch-code.py**, For example
+
+```
+HOST = 'localhost'
+PORT = 9200
+USERNAME = 'admin'
+PASSWORD = 'PassWord.1234'
+CA_CERTS_PATH = 'PATH/TO/root-ca.pem'
 ```
