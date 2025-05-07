@@ -5,7 +5,7 @@ For learning Opensearch
 1.  Create a file named "**.env**"  having admin password
    
 ```
-export OPENSEARCH_INITIAL_ADMIN_PASSWORD=PassWord.1234
+export OPENSEARCH_INITIAL_ADMIN_PASSWORD=@PassWord.1234
 ```
 
 2.  Run
@@ -33,6 +33,6 @@ openssl req -new -x509 -sha256 -key root-ca-key.pem -out root-ca.pem -days 730
 HOST = 'localhost'
 PORT = 9200
 USERNAME = 'admin'
-PASSWORD = 'PassWord.1234'
+PASSWORD = '@PassWord.1234'
 CA_CERTS_PATH = 'PATH/TO/root-ca.pem'
 ```
