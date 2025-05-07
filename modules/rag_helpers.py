@@ -87,7 +87,7 @@ class RAG_OpenSearch:
                             "dimension": 1024,  #size of BGE
                             "method": {
                                 "name": "hnsw",
-                                "engine": "nmslib",
+                                "engine": "faiss", # nmslib
                                 "space_type": "cosinesimil"
                             }
                         }
