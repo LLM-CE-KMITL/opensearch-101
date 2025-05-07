@@ -97,7 +97,7 @@ if not client.indices.exists(index=INDEX_NAME):
                     "dimension": 1024,  #size of BGE
                     "method": {
                         "name": "hnsw",
-                        "engine": "nmslib",
+                        "engine": "faiss", # nmslib
                         "space_type": "cosinesimil"
                     }
                 }
