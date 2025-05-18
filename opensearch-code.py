@@ -8,7 +8,6 @@ from opensearchpy import OpenSearch, helpers
 from transformers import AutoTokenizer, AutoModel
 import torch
 
-#import deepcut
 
 ######## Get Vector Embeding ##############
 
@@ -43,6 +42,11 @@ def get_embedding(text):
     https://python.langchain.com/docs/integrations/vectorstores/opensearch/
 '''
 
+
+########## Run Docker ##########
+'''
+docker run -it -p 9200:9200 -p 9600:9600 -e OPENSEARCH_INITIAL_ADMIN_PASSWORD=@PassWord.1234 -e "discovery.type=single-node" -e "DISABLE_SECURITY_PLUGIN=true" -v opensearch-data1:/usr/share/opensearch/data  --name opensearch-node opensearchproject/opensearch:latest
+'''
 ######## Connect OpenSearch ##############
 
 # config
@@ -50,8 +54,7 @@ def get_embedding(text):
 HOST = 'localhost'
 PORT = 9200
 USERNAME = 'admin'
-PASSWORD = '{PASSSWORD}'
-CA_CERTS_PATH = 'PATH/TO/root-ca.pem'
+PASSWORD = '@PassWord.1234'
 
 # connect
 
@@ -59,11 +62,7 @@ client = OpenSearch(
             hosts=[ {'host': HOST, 'port': PORT}],
             http_compress=True,
             http_auth=(USERNAME, PASSWORD),
-            use_ssl=True,
-            verify_certs=False,
-            ssl_assert_hostname=False,
-            ssl_show_warn=False,
-            ca_certs=CA_CERTS_PATH
+            use_ssl=False
         )
 
 # Print out a debug print to see if connection is successful
@@ -86,7 +85,8 @@ if not client.indices.exists(index=INDEX_NAME):
     index_body = {
         "settings": {
             "index": {
-                "knn": True
+                "knn": True,
+                "knn.algo_param.ef_search": 100
             }
         },
         "mappings": {
@@ -97,7 +97,7 @@ if not client.indices.exists(index=INDEX_NAME):
                     "dimension": 1024,  #size of BGE
                     "method": {
                         "name": "hnsw",
-                        "engine": "faiss", # nmslib
+                        "engine": "faiss",
                         "space_type": "cosinesimil"
                     }
                 }
@@ -226,5 +226,3 @@ response = client.search(index=INDEX_NAME, body=query_body)
 for hit in response['hits']['hits']:
     print(f"Score: {hit['_score']:.4f}, Text: {hit['_source']['text']}")
     
-    
-
