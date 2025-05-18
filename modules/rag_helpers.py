@@ -28,22 +28,17 @@ class RAG_OpenSearch:
     def __init__(self):
         pass
         
-    def connect_vector_db(self, host, port, username, password, ca_certs_path):
+    def connect_vector_db(self, host, port, username, password):
         self.host = host
         self.port = port
         self.username = username
         self.password = password
-        self.ca_certs_path = ca_certs_path
         
         self.client = OpenSearch(
                         hosts=[ {'host': self.host, 'port': self.port}],
                         http_compress=True,
                         http_auth=(self.username, self.password),
-                        use_ssl=True,
-                        verify_certs=False,
-                        ssl_assert_hostname=False,
-                        ssl_show_warn=False,
-                        ca_certs=self.ca_certs_path
+                        use_ssl=False
                     )
         
         
@@ -87,7 +82,7 @@ class RAG_OpenSearch:
                             "dimension": 1024,  #size of BGE
                             "method": {
                                 "name": "hnsw",
-                                "engine": "faiss", # nmslib
+                                "engine": "nmslib",
                                 "space_type": "cosinesimil"
                             }
                         }
@@ -162,3 +157,10 @@ class RAG_OpenSearch:
             #print(f"Score: {hit['_score']:.4f}, Text: {hit['_source']['text']}")
 
         return res_list
+
+
+
+
+
+    
+

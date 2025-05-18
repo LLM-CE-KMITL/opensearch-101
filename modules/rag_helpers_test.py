@@ -15,11 +15,10 @@ em = EmbeddingModel(EmbeddingModel.BGE_RERANKER_V2_M3)
 HOST = 'localhost'
 PORT = 9200
 USERNAME = 'admin'
-PASSWORD = 'Rathachai.007'
-CA_CERTS_PATH = '/Users/rathachai/Library/CloudStorage/OneDrive-KMITL/GHPROJ/RAG/root-ca.pem'
+PASSWORD = '@PassWord.1234'
 
 ros = RAG_OpenSearch()
-ros.connect_vector_db(host=HOST, port=PORT, username=USERNAME, password=PASSWORD, ca_certs_path=CA_CERTS_PATH)
+ros.connect_vector_db(host=HOST, port=PORT, username=USERNAME, password=PASSWORD)
 ros.set_embedding_model(em)
 
 
@@ -71,3 +70,6 @@ ros.store_many_items(VEC_SPACE, items)
 
 
 ros.query(VEC_SPACE, "มีข้าวมันไก่เป็นอาหารจานเดียวที่ได้รับความนิยมอย่างแพร่หลาย", 2)
+
+
+
