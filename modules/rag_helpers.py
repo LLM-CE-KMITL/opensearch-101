@@ -132,11 +132,11 @@ class RAG_OpenSearch:
         print(f"Bulk indexing complete: {success} succeeded, {failed} failed.")
         
         
-    def query(self, space_name, query, top_k=5):
-        query_vector = self.get_q_embedding(query).tolist()
+    def query(self, space_name, user_query, top_k=5):
+        query_vector = self.get_q_embedding(user_query).tolist()
 
         query_body = {
-            "size": 5,
+            "size": top_k,
             "query": {
                 "knn": {
                     "embedding": {
